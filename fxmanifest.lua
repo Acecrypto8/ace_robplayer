@@ -11,12 +11,14 @@ shared_scripts {
 }
 
 client_scripts {
+    'bridge/bridge-client.lua',
     'client/functions.lua',
     'client/client.lua'
 }
 
 server_scripts {
     'server/discord.lua',
+    'bridge/bridge-server.lua',
     'server/functions.lua',
     'server/server.lua'
 }
