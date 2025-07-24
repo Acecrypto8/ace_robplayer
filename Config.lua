@@ -12,13 +12,16 @@ Config = {
         Inventory = 'Auto',
         Notification = 'OX',
 
-        Mode = 'OnlyHandsUp', -- Modes: 'OnlyHandsUp', 'OnlyWhenDead', 'BOTH'
+        Mode = 'OnlyWhenHandsUp', -- Modes: 'OnlyWhenHandsUp', 'OnlyWhenDead', 'BOTH'
         lang = 'en'
     },
 
     NotiMessages = {
         ['en'] = {
-            ['robbing_initiated'] = 'Robbing player..',
+            ['script_initiated'] = 'Script Started',
+            ['robbing_initiated'] = 'Trying to Rob player..',
+            ['robbing_while_dead'] = 'You cannot use this command while dead',
+            ['robbing_distrupted'] = 'Cant Rob this player',
             ['robbing_canceled'] = 'Cancled Robbing player..',
         }
     },

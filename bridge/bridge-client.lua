@@ -1,6 +1,7 @@
 local C = Config
 local S = C.Settings
 local D = C.DebugMode
+local N = C.NotiMessages
 local NotificationType = string.lower(S.Notification) or nil
 local language = S.lang
 local Translation = C.NotiMessages
@@ -14,21 +15,27 @@ CanScriptRun = true
 
 
 -- Tables for storing info
-local GetFrameWork = {
+GetFrameWork = {
     QBcore = 'qb',
     ESX = 'esx',
     -- Add more here
 }
-local GetInventory = {
+GetInventory = {
     OX = 'ox_inventory',
     QBcore = 'qb_invetory',
     -- Add more here
 }
-local GetNotiSystem = {
+GetNotiSystem = {
     OX = 'ox',
     QBcore = 'qb',
     ESX = 'esx',
     -- Add more here
+}
+NotifSystemTypes = { -- Defualt values, but will change with different notification systems
+    typeInform = 'inform',
+    typeError = 'error',
+    typeSuccess = 'success',
+    typeWarning = 'warning'
 }
 ---
 
@@ -72,6 +79,7 @@ function InitializeFrameWork()
         CurrentFramework = 'esx'
     else
         -- Custom FrameWork
+        CanScriptRun = false
     end
 end
 
@@ -91,16 +99,24 @@ function InitializeInventory() -- The script only supports ox_inventory
         CurrentInventory = GetInventory.QBcore
     else
         -- Custom CurrentInventory Here
+        CanScriptRun = false
     end
 end
 
 function InitializeNotiType()
     if NotificationType == GetNotiSystem.OX then
         CurrentNotiSystem = 'ox'
+        NotifSystemTypes = {
+            typeInform = 'inform',
+            typeError = 'error',
+            typeSuccess = 'success',
+            typeWarning = 'warning'
+        }
     end
 end
 
 function PrintStartDebugInfo()
+    DebugPrint('---')
     DebugPrint(string.format('Detected FrameWork: %s', CurrentFramework or "none"))
     DebugPrint(string.format('Detected CurrentInventory: %s', CurrentInventory or "none"))
     DebugPrint(string.format('Configured Notification System: %s', CurrentNotiSystem or "none"))
@@ -109,11 +125,22 @@ function PrintStartDebugInfo()
     if not CanScriptRun then
         DebugPrint("The script is not configured correctly!")
     end
+    DebugPrint('---')
 end
 
-function SendNotification(msg, type)
+---@param msg string
+---@param type string
+---@param translation boolean -- If true will run msg through GetTranslation function
+function SendNotification(msg, type, translation)
     local title = '[ACE] Player Rob'
-    msg = SendNotification(GetTranslation(msg)) or '[ERROR] no message provided for notification'
+    local msg = msg
+    local translation = translation or false
+    if not msg then DebugPrint("No msg provided for Notification, cant send") return end
+    if translation then
+         msg = GetTranslation(msg) or '[ERROR] no message provided for notification'
+    else
+        msg = msg or '[ERROR] no message provided for notification'
+    end
     type = type or 'success'
 
     if CurrentNotiSystem == 'ox' then
@@ -131,9 +158,11 @@ function SendNotification(msg, type)
     end
 end
 
+RegisterCommand('acedebugrob', function ()
+    PrintStartDebugInfo()
+end, false)
+
 InitializeFrameWork()
 InitializeInventory()
 InitializeNotiType()
-if D then PrintStartDebugInfo() end
-
-SendNotification('robbing_initiated')
+if D then PrintStartDebugInfo() SendNotification('script_initiated', NotifSystemTypes.typeInform, true) end

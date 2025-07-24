@@ -103,6 +103,7 @@ function InitializeNotiType()
 end
 
 function PrintStartDebugInfo()
+    DebugPrint('---')
     DebugPrint(string.format('Detected FrameWork: %s', CurrentFramework or "none"))
     DebugPrint(string.format('Detected CurrentInventory: %s', CurrentInventory or "none"))
     DebugPrint(string.format('Configured Notification System: %s', CurrentNotiSystem or "none"))
@@ -111,9 +112,10 @@ function PrintStartDebugInfo()
     if not CanScriptRun then
         DebugPrint("The script is not configured correctly!")
     end
+    DebugPrint('---')
 end
 
-function SendNotification(playerid, msg, type)
+function SendNotificationToClient(playerid, msg, type)
     if not playerid then DebugPrint("No player ID specified for notification, cannot send") return end
     local title = '[ACE] Player Rob'
     msg = msg or '[ERROR] no message provided for notification'
