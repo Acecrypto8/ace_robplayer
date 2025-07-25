@@ -11,6 +11,7 @@ CurrentNotiSystem = nil
 CurrentInventory = nil
 CurrentFramework = nil
 CanScriptRun = true
+FrameWorkExport = nil
 
 
 -- Tables for storing info

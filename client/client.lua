@@ -12,6 +12,7 @@ end
 
 
 RegisterCommand(cmdName, function ()
+    DebugPrint("rob command has been called")
     SendNotification('robbing_initiated', NotifSystemTypes.typeInform, true)
     Wait(100)
     InitiateRobbery()
