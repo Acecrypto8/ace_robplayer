@@ -84,7 +84,7 @@ function InitializeFrameWork()
     end
 end
 
-function InitializeInventory() -- The script only supports ox_inventory
+function InitializeInventory() -- The script only supports ox_inventory for now
     if InventoryType == 'auto' then
         if GetResourceState('ox_inventory') == 'started' then
             CurrentInventory = GetInventory.OX
